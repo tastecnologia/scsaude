@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"> 
+
+<h:head>Ficha</h:head> 
+<h:body> 
+	<h:form>
+		<div>
+			<h:outputLabel value="DtCriacao" />
+			<h:inputText value="#{fichaMB.dtCriacao}" />
+		</div>
+		<div>
+			<h:outputLabel value="Status" />
+			<h:inputText value="#{fichaMB.status}" />
+		</div>
+		<div>
+			<h:outputLabel value="Observacao" />
+			<h:inputText value="#{fichaMB.observacao}" />
+		</div>
+		<div>
+			<c:choose>
+				<c:when test="#{fichaMB.id > 0}">
+					<h:inputHidden value="#{fichaMB.id}" />
+					<h:commandButton action="#{fichaMB.updateficha()}" value="Update" />
+				</c:when>
+				<c:otherwise>
+					<h:commandButton action="#{fichaMB.createficha()}" value="Create" />
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</h:form>
+	<table border="solid" cellpadding="2" cellspacing="3">
+		<thead>
+			<th>Data Criação</th>
+			<th>Status</th>
+			<th>Observação</th>
+			<th></th>
+		</thead>
+		<tbody>
+			<ui:repeat var="fichas" value="#{fichaMB.getAllfichas()}">
+				<tr>
+					<td>#{fichas.dtCriacao}</td>
+					 <td>{fichas.status}</td>
+					<td>#{fichas.observacao}</td>
+					<td>
+						<h:form>
+							<h:commandLink action="#{fichaMB.getficha(fichas.id)}" value="Editar" />
+						</h:form>
+					</td>
+					<td>
+						<h:form>
+							<h:commandLink action="#{fichaMB.deleteficha(fichas.id)}" value="Remover" />
+						</h:form>					
+					</td>
+				</tr>
+			</ui:repeat>
+		</tbody>
+	</table>
+</h:body> 
+</html>
